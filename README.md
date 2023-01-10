@@ -1,4 +1,5 @@
 # Build and setup application
+
 ```bash
 sudo su
 apt get install python3.11
@@ -8,9 +9,11 @@ pip install virtualenv
 virtualenv -p python3 venv
 . venv/bin/activate
 venv/bin/pip3 install -r requirements.txt
+flask db init
+flask db upgrade
 ```
 
-# Dependencies
+# View dependencies
 ````bash
 venv/bin/pip3 freeze
 ````
