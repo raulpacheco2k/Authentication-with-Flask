@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app import db
+from app import db, login_manager
 
 
 class User(db.Model):
@@ -12,16 +12,33 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    @property
+    def is_authenticated(self):
+        return True
 
-def __int__(self, fullname, username, email, password):
-    self.fullname = fullname
-    self.username = username
-    self.email = email
-    self.password = password
+    @property
+    def is_active(self):
+        return True
 
+    @property
+    def is_anonymous(self):
+        return False
 
-def __repr__(self):
-    return f"<User {self.username}>"
+    def get_id(self):
+        return self.id
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+
+    def __int__(self, fullname, username, email, password):
+        self.fullname = fullname
+        self.username = username
+        self.email = email
+        self.password = password
+
+    def __repr__(self):
+        return f"<User {self.username}>"
 
 
 class Post(db.Model):

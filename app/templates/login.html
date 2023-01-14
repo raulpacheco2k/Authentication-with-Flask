@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ super()}} - Login {% endblock %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+Hi {{ current_user.fullname }}!
+{% else %}
+
+
+{% if get_flashed_messages() %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+{% else %}
+<div class="alert alert-danger" role="alert">
+    Você não está autenticado, faça login para continuar.
+</div>
+{% endif %}
+
+<form action="" method="post">
+    {{ form.csrf_token }}
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        {{ form.username(class="form-control", id="username") }}
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        {{ form.password(class="form-control", id="password") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endif %}
+{% endblock %}
+
+
+
